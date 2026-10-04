@@ -8,9 +8,10 @@
 [![CLI Tool](https://img.shields.io/badge/CLI-sub2study-4E5D6C?style=for-the-badge&logo=gnubash&logoColor=white)](https://github.com/wanxiao2018/sub2study)
 [![Renderer](https://img.shields.io/badge/Renderer-Chrome%20Headless-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://www.google.com/chrome/)
 [![Agent Ready](https://img.shields.io/badge/Agents-Claude%20%7C%20Codex%20%7C%20Cursor%20%7C%20AGY-7C3AED?style=for-the-badge)](./skill/)
+[![LINUX DO](https://img.shields.io/badge/LINUX%20DO-社区交流-E9711C?style=for-the-badge&logo=linux&logoColor=white)](https://linux.do)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](./LICENSE)
 
-[English](./README.md) · [简体中文](./README_zh.md) · [Agent 规范目录](./skill/) · [开源协议](./LICENSE)
+[English](./README.md) · [简体中文](./README_zh.md) · [LINUX DO 社区](https://linux.do) · [Agent 规范目录](./skill/) · [贡献指南](./CONTRIBUTING_zh.md) · [开源协议](./LICENSE)
 
 </div>
 
@@ -156,6 +157,23 @@ output/
 ├── How_Tech_Salaries_Actually_Work_Bilingual_Study_Guide.pdf  # A4 矢量印刷级精读讲义
 └── How_Tech_Salaries_Actually_Work_Bilingual_Study_Guide.md  # 结构化双语精读笔记
 ```
+
+---
+
+## 🐧 社区与致谢
+
+本项目认可并链接 **[LINUX DO (linux.do)](https://linux.do)** 社区。欢迎佬友在 L 站交流讨论、反馈问题并分享外语精读体验：
+- 社区交流主站：[https://linux.do](https://linux.do)
+- 欢迎交流各类语言的断句调优、Prompt 翻译经验与双语学习心得；
+- 欢迎提出 Feature Request，共同打造更加精炼、实用的双语学习工程套件；
+- 秉持「真诚、友善、团结、专业」的精神，共同推动开源工具的持续演进。
+
+---
+
+## 🤝 参与贡献
+
+我们非常欢迎社区开发者的参与与建议！
+请参阅 [CONTRIBUTING_zh.md](./CONTRIBUTING_zh.md) 了解如何提交 Issue、PR 规范以及本地调试指南。
 
 ---
 

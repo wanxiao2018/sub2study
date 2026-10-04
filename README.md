@@ -8,9 +8,10 @@
 [![CLI Tool](https://img.shields.io/badge/CLI-sub2study-4E5D6C?style=for-the-badge&logo=gnubash&logoColor=white)](https://github.com/wanxiao2018/sub2study)
 [![Renderer](https://img.shields.io/badge/Renderer-Chrome%20Headless-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://www.google.com/chrome/)
 [![Agent Ready](https://img.shields.io/badge/Agents-Claude%20%7C%20Codex%20%7C%20Cursor%20%7C%20AGY-7C3AED?style=for-the-badge)](./skill/)
+[![LINUX DO](https://img.shields.io/badge/LINUX%20DO-Community-E9711C?style=for-the-badge&logo=linux&logoColor=white)](https://linux.do)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](./LICENSE)
 
-[English](./README.md) · [简体中文](./README_zh.md) · [Agent Guidelines](./skill/) · [License: MIT](./LICENSE)
+[English](./README.md) · [简体中文](./README_zh.md) · [LINUX DO Community](https://linux.do) · [Agent Guidelines](./skill/) · [Contributing](./CONTRIBUTING.md) · [License: MIT](./LICENSE)
 
 </div>
 
@@ -156,6 +157,23 @@ output/
 ├── How_Tech_Salaries_Actually_Work_Bilingual_Study_Guide.pdf  # Publication-grade A4 PDF
 └── How_Tech_Salaries_Actually_Work_Bilingual_Study_Guide.md  # Structured Markdown study notes
 ```
+
+---
+
+## 🐧 Community & Acknowledgements
+
+This project acknowledges and is shared with the **[LINUX DO](https://linux.do)** community.
+- Community portal: [https://linux.do](https://linux.do)
+- Fellow developers and language learners are warmly welcomed to discuss, give feedback, and share language learning workflows on LINUX DO.
+- Join discussions on subtitle segmentation, ASR prompt tuning, and multi-agent integrations!
+- Guided by the spirit of "Sincere, Friendly, United, and Professional", advancing open-source AI tooling together.
+
+---
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+Please check the [CONTRIBUTING.md](./CONTRIBUTING.md) guide for guidelines on PRs and local development.
 
 ---
 
