@@ -1,159 +1,164 @@
 <div align="center">
 
-# 📖 sub2study
+# 🎓 sub2study
 
-**专为外语学习者打造的 YouTube 视频字幕精读讲义与 PDF 排版制作工具**
+**Transform raw YouTube subtitles into publication-grade bilingual study guides (A4 PDF & Markdown notes) — Engineered for language learners, developers, and autonomous AI agents**
 
 [![Python Version](https://img.shields.io/badge/Python-3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![CLI Tool](https://img.shields.io/badge/CLI-sub2study-4E5D6C?style=for-the-badge&logo=gnubash&logoColor=white)](https://github.com/wanxiao2018/sub2study)
+[![Renderer](https://img.shields.io/badge/Renderer-Chrome%20Headless-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://www.google.com/chrome/)
+[![Agent Ready](https://img.shields.io/badge/Agents-Claude%20%7C%20Codex%20%7C%20Cursor%20%7C%20AGY-7C3AED?style=for-the-badge)](./skill/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](./LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-macOS%20|%20Linux%20|%20Windows-4E5D6C?style=for-the-badge)]()
-[![Skill Ready](https://img.shields.io/badge/AI%20Skill-Antigravity%20Ready-4285F4?style=for-the-badge&logo=google&logoColor=white)]()
 
-[简体中文](./README.md) · [开源协议](./LICENSE) · [问题反馈](https://github.com/wanxiao2018/sub2study/issues)
+[English](./README.md) · [简体中文](./README_zh.md) · [Agent Guidelines](./skill/) · [License: MIT](./LICENSE)
 
 </div>
 
 ---
 
-## 🌟 设计精髓与核心亮点
+## 🌟 Key Engineering Highlights
 
-- **🧩 语音识别（ASR）文本断句重构**：
-  彻底清洗 YouTube 自动字幕中普遍存在的滚屏重复词与碎片时间戳标签，严格依据句末标点（`.`、`!`、`?`）将破碎词条重新拼合为完整语句，并按 ~50 词语义聚合成自然连贯的阅读段落。
-- **📑 严谨的整词排版与防截断机制**：
-  针对外语长单词与专业术语丰富的语境，摒弃易引发断词异常的强制两端对齐，采用出版级自然左对齐与整词换行（`word-break: normal; hyphens: none`），确保每一个生词在 PDF 中都完整显示，绝无连字符跨行断开。
-- **⏱️ 毫秒级时间戳锚点对照**：
-  为每个重构段落精准保留原视频起始时间戳锚点（如 `[01:25]`）。学习过程中遇到生词发音疑惑或语调难点时，可一键在原视频中跳转复听定位。
-- **📚 核心生词提取与音标/重音规范标注**：
-  根据视频全篇语境自动提炼 15~30 条高频核心词汇与地道表达，严格标注国际音标（IPA）或重音符号，并提供词性及真实语境例句。
-- **🌍 全语种智能自适应**：
-  默认自动检测视频原生音轨语种（英语、日语、法语、德语、西班牙语等），同时支持显式指定语言代码。
-- **🤖 广泛兼容各类 AI Agent 生态**：
-  不仅支持 Google Antigravity（AGY），还深度适配 **Claude Code**、**OpenAI Codex**、**Cursor** 及通用命令行 Coding Agent，内置通用规范（`SKILL.md`、`CLAUDE.md`、`AGENTS.md`）。
-- **🧹 纯净工作目录（零中间碎片文件污染）**：
-  渲染完成后自动归档清洗中间产生的 `.json`、`.vtt`、临时 `.html` 缓存至全局缓存目录（`~/.sub2study/cache/`），确保输出文件夹下**只留存精干的最终产物**（`[Title].pdf` 与 `[Title].md`），绝无杂乱碎文件。
-- **📦 双格式学习资产输出**：
-  - **A4 矢量精读讲义（.pdf）**：基于无头浏览器精确渲染，支持系统原生多语言字体，适合 iPad 批注与纸质打印；
-  - **结构化双语笔记（.md）**：标准 Markdown 格式，便于无缝导入 Obsidian、Notion 与 Logseq 归档检索。
+- **🧩 ASR De-duplication & Sentence Boundary Reconstruction**:
+  Strips rolling word repetitions and inline `<c>` word tags from YouTube auto-generated captions. Reconstructs fragmented lines into complete sentences using punctuation boundaries (`.`, `!`, `?`), grouping them into coherent paragraphs (~50 words each).
+- **📑 Whole-Word Typography (Zero Hyphen Fragmentation)**:
+  Avoids forced justification and CSS hyphen chopping (`hyphens: auto`) that mutilates complex vocabulary. Enforces strict natural left-aligned typography (`text-align: left; hyphens: none; word-break: normal;`), guaranteeing every foreign word stays whole and readable in PDF.
+- **⏱️ Timestamp Anchor Indexing**:
+  Preserves precise source video timestamp anchors (`[MM:SS]`) for every reconstructed paragraph, allowing instant playback verification and pronunciation review directly in YouTube.
+- **📚 International Phonetic Alphabet (IPA) & Lexical Collocations**:
+  Extracts 15–25 high-leverage idioms, technical terms, and vocabulary items from the context, complete with IPA phonetic transcriptions, part of speech, concise translations, and in-situ video collocations.
+- **🧹 Zero-Clutter Delivery Guarantee**:
+  Temporary HTML layout targets are automatically purged after PDF compilation. Intermediate working JSON files are safely archived to `~/.sub2study/cache/`, ensuring the target output folder strictly contains **only the final deliverables** (`[Title].pdf` and `[Title].md`).
+- **🤖 Autonomous AI Agent Ready**:
+  Designed to work natively with **Claude Code**, **OpenAI Codex**, **Cursor**, and **Google Antigravity (AGY)** via built-in guidelines (`SKILL.md`, `CLAUDE.md`, `AGENTS.md`).
+- **📦 Dual-Format Asset Generation**:
+  - **A4 Vector PDF (`.pdf`)**: Compiled via Chromium headless rendering engine with native multi-language font support, ideal for iPad annotation and printing;
+  - **Structured Markdown (`.md`)**: GitHub-flavored Markdown formatted for immediate import into Obsidian, Notion, or Logseq.
 
 ---
 
-## 🏗️ 架构与处理流程
+## 🏗️ Architecture & Data Pipeline
 
 ```mermaid
 flowchart LR
-    A["YouTube 视频链接 / 本地字幕"] --> B["sub2study 抓取与会话处理"]
-    B --> C["ASR 文本清洗与去重"]
-    C --> D["标点匹配与自然段落重构"]
-    D --> E["AI 语义校对与语境双语翻译"]
-    E --> F["带音标核心词汇与例句提取"]
-    F --> G["矢量印刷级 PDF (Chrome Headless)"]
-    F --> H["Obsidian / Notion Markdown 笔记"]
+    A["YouTube URL / Local Subtitles"] --> B["sub2study Fetch & Session Management"]
+    B --> C["ASR Text Cleaning & De-duplication"]
+    C --> D["Punctuation Matching & Paragraph Chunking"]
+    D --> E["AI Proofreading & Contextual Translation"]
+    E --> F["IPA Vocabulary & Collocation Extraction"]
+    F --> G["Vector Publication PDF (Chrome Headless)"]
+    F --> H["Obsidian / Notion Markdown Notes"]
 ```
 
 ---
 
-## 📄 产出讲义规格预览
+## 📑 Layout & Typography Specifications
 
-生成的学习讲义包含两大核心板块：
-
-### 1. 双语精读对照正文
-| 元素 | 排版样式 | 说明 |
+### 1. Bilingual Card Specifications
+| Region | Styling Specifications | Functional Intent |
 | :--- | :--- | :--- |
-| **段落标头** | `段落 1 [00:00:28]` | 带有醒目的时间码徽章，便于定位原视频 |
-| **原文卡片** | 14px 深青灰 · 自然左对齐 · 行高 1.65 | 完整保留词汇形态，标点规范，避免眼肌疲劳 |
-| **译文底栏** | 13px 蓝灰框 · 左侧重音蓝边线条 | 依托整段语境进行的意译，专业术语精准对齐 |
+| **Card Header** | Paragraph index + `[00:01:25]` monospace badge | Allows direct cross-referencing with video audio |
+| **Source Text** | 14px dark slate · `text-align: left` · Line-height 1.65 | Prevents forced hyphen cutting on specialized terms |
+| **Translation** | 13px blue-gray panel · 3.5px accent left border | Contextualized translation with domain terminology alignment |
 
-### 2. 核心词汇与地道表达解析表（以科技薪资视频为例）
-| 序号 | 单词 / 表达 (带音标) | 词性与语法 | 中文释义 | 视频语境搭配与例句 |
-| :---: | :--- | :--- | :--- | :--- |
-| **1** | **equity /ˈekwɪti/** | n. | 公司股权 / 股票资产 | *The stock, or companies call it equity (公司通常称之为股权)* |
-| **2** | **RSUs /ˌɑːr es ˈjuːz/** | n. | 限制性股票单位 | *The most common one is RSUs that tech companies give (大厂最常见的激励形式)* |
-| **3** | **vesting schedule** | n. | 股票归属计划 | *Vesting determines the frequency with which stock is released (决定股权分期解禁节奏)* |
-| **4** | **sign-on bonus** | n. | 签字费 / 入职奖金 | *Sign-on bonus is a one-time payment (一次性发放的签约现金礼包)* |
+### 2. Vocabulary Table Specification (Sample: Tech Salaries Video)
+| # | Word / Expression (with IPA) | POS | Definition | Contextual Collocation from Video |
+| :---: | :--- | :---: | :--- | :--- |
+| **1** | **equity /ˈekwɪti/** | n. | Company stock / equity assets | *The stock, or companies call it equity* |
+| **2** | **RSUs /ˌɑːr es ˈjuːz/** | n. | Restricted Stock Units | *The most common one is RSUs that tech companies give* |
+| **3** | **vesting schedule** | n. | Stock vesting schedule | *Vesting determines the frequency with which stock is released* |
+| **4** | **sign-on bonus** | n. | Sign-on / hiring bonus | *Sign-on bonus is a one-time payment* |
 
 ---
 
-## 🚀 1 分钟快速上手
+## 🚀 1-Minute Quickstart
 
-### 1. 克隆代码仓库
+### 1. Prerequisites
+- **Python 3.9+**
+- **yt-dlp**: `brew install yt-dlp` (macOS) or `pip install yt-dlp`
+- **Chrome / Edge / Chromium**: Any desktop Chromium browser for headless PDF compilation
+
+### 2. Installation
 ```bash
 git clone https://github.com/wanxiao2018/sub2study.git
 cd sub2study
+chmod +x install.sh && ./install.sh
 ```
-
-### 2. 一键安装与配置
-```bash
-chmod +x install.sh
-./install.sh
-```
-> 安装脚本会自动安装 `sub2study` 命令行工具，并检测配置本地运行环境。
-
-*(或使用标准 Python 手动安装)*：
-```bash
-pip install -r requirements.txt
-pip install -e .
-```
+> The installer configures the editable Python CLI and creates a symlink in `~/.local/bin/sub2study`.
 
 ---
 
-## 💡 使用指南
+## 🤖 Using with AI Agents (Recommended)
 
-### 方式一：配合 AI Agent（Claude Code、Codex、Cursor、Antigravity 等）使用（推荐）
+`sub2study` is a modular Python CLI that any terminal-capable AI Agent can invoke directly:
 
-因为 `sub2study` 本质上是一个标准的 Python 命令行工具，**任何具备终端调用能力的 AI Agent 都可以原生调度使用**：
-- **Claude Code 用户**：项目内置了 [`skill/CLAUDE.md`](./skill/CLAUDE.md)，Claude Code 会自动读取规范；
-- **Cursor / Codex 用户**：项目内置了 [`skill/AGENTS.md`](./skill/AGENTS.md) 规则指引；
-- **Google Antigravity (AGY) 用户**：一键安装脚本已自动将 [`skill/SKILL.md`](./skill/SKILL.md) 挂载到全局目录。
+- **Claude Code**: Native support via [`skill/CLAUDE.md`](./skill/CLAUDE.md).
+- **Cursor / OpenAI Codex**: Guided via [`skill/AGENTS.md`](./skill/AGENTS.md).
+- **Google Antigravity (AGY)**: Registered globally via [`skill/SKILL.md`](./skill/SKILL.md).
 
-在任意 Agent 中发送视频链接即可：
-> **“用 sub2study 帮我把这个视频做成双语学习讲义：https://www.youtube.com/watch?v=vJwoB34Tv2U”**
+Simply send the video URL in your Agent chat:
+> **"Use sub2study to turn this video into a bilingual study guide: https://www.youtube.com/watch?v=vJwoB34Tv2U"**
 
-Agent 会自动启动流水线：下载字幕 ➔ 智能断句 ➔ 语境校对与翻译 ➔ 提炼生词表 ➔ 在指定目录输出 PDF 与 Markdown。
+The Agent executes the end-to-end pipeline:
+1. Downloads and cleans subtitles into coherent paragraphs;
+2. Proofreads and translates contextually;
+3. Extracts vocabulary with IPA transcriptions;
+4. Compiles the PDF and Markdown, automatically cleaning up intermediate files.
 
 ---
 
-### 方式二：终端命令行（CLI）独立使用
+## 💻 CLI Reference Manual
 
-#### 步骤 1：下载并清洗字幕为结构化段落
+### Step 1: Extract & Clean Subtitles
 ```bash
 sub2study extract "https://www.youtube.com/watch?v=vJwoB34Tv2U" -o ./output --lang auto
 ```
-> 会在 `./output` 目录下生成清洗好、带时间戳的 `cleaned_paragraphs.json`。
+Options:
+- `url`: YouTube video URL or path to local subtitle file (`--vtt`);
+- `-o, --output-dir`: Output directory (default: current directory);
+- `--lang`: Subtitle language code (default: `auto` to detect original audio);
+- `--min-words`: Minimum word threshold per paragraph (default: `45`);
+- `--keep-vtt`: Retain raw `.vtt` file in output directory (default: `False`).
 
-#### 步骤 2：基于双语对照数据渲染导出 PDF 与 Markdown
-将校对与翻译完成的 JSON 数据一键编译为排版讲义：
+### Step 2: AI Proofreading & Translation (`bilingual_result.json`)
+Data structure:
+```json
+{
+  "paragraphs": [
+    { "timestamp": "00:00:00", "ru": "English source text...", "zh": "中文译文..." }
+  ],
+  "vocabulary": [
+    { "word": "equity", "accent": "/ˈekwɪti/", "pos": "n.", "meaning": "公司股权", "collocation": "companies call it equity" }
+  ]
+}
+```
+
+### Step 3: Render Final Deliverables
 ```bash
 sub2study render ./output/bilingual_result.json \
   -o ./output \
-  --title "科技大厂真实薪酬架构与谈薪内幕" \
+  --title "How Tech Salaries Actually Work" \
   --video-url "https://www.youtube.com/watch?v=vJwoB34Tv2U" \
   --speaker "Ex-Spotify Analyst" \
   --source-lang en
 ```
+Options:
+- `--keep-html`: Preserve intermediate HTML layout file (default: auto-removed);
+- `--no-clean`: Prevent archiving intermediate JSON files (default: auto-archived to cache).
 
 ---
 
-## 📂 项目结构
+## 📂 Deliverable Directory Structure
 
-```
-sub2study/
-├── sub2study/                 # 核心模块源码
-│   ├── __init__.py            # 版本信息 (v1.0.0)
-│   ├── cli.py                 # 统一命令行入口
-│   ├── cookie_resolver.py     # 浏览器会话安全解析与免密支持
-│   ├── extractor.py           # 字幕抓取、去重与段落重构
-│   └── renderer.py            # PDF 与 Markdown 排版生成器
-├── skill/                     # AI Agent Skill 规则定义
-│   └── SKILL.md               # Antigravity 原生 Skill 配置规范
-├── install.sh                 # 一键安装脚本
-├── setup.py                   # 模块打包定义
-├── requirements.txt           # 基础运行依赖
-├── LICENSE                    # MIT 开源协议
-└── README.md                  # 项目中文说明文档
+Upon completion, the target directory strictly contains **only the final deliverables**:
+
+```text
+output/
+├── How_Tech_Salaries_Actually_Work_Bilingual_Study_Guide.pdf  # Publication-grade A4 PDF
+└── How_Tech_Salaries_Actually_Work_Bilingual_Study_Guide.md  # Structured Markdown study notes
 ```
 
 ---
 
-## 📄 开源许可证
+## 📄 License
 
-本项目基于 [MIT License](./LICENSE) 开源发布。
+Distributed under the [MIT License](./LICENSE). Contributions, issues, and feature requests are welcome!
