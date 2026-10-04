@@ -14,6 +14,8 @@ import json
 import html
 import subprocess
 import argparse
+import shutil
+import tempfile
 
 def find_chrome_executable():
     paths = [
@@ -36,7 +38,55 @@ def find_chrome_executable():
             return p
     return None
 
-def generate_documents(bilingual_json, output_dir, title="双语精读讲义", video_url="", speaker="", summary="", source_lang="ru"):
+def cleanup_intermediates(output_dir, input_json=None, keep_html=False):
+    """Archive or clean intermediate working files (.html, .vtt, .json) in output_dir,
+    guaranteeing that ONLY .md and .pdf study guide files remain."""
+    cache_dir = os.path.expanduser("~/.sub2study/cache")
+    os.makedirs(cache_dir, exist_ok=True)
+
+    # 1. Clean HTML
+    if not keep_html:
+        for f in os.listdir(output_dir):
+            if f.endswith(".html"):
+                try:
+                    os.remove(os.path.join(output_dir, f))
+                except OSError:
+                    pass
+
+    # 2. Archive intermediate files (json, vtt, srt)
+    intermediate_patterns = [
+        r"^cleaned_paragraphs.*\.json$",
+        r"^bilingual_result.*\.json$",
+        r"^part\d+.*\.json$",
+        r"^.*\.vtt$",
+        r"^.*\.srt$"
+    ]
+    archived = []
+    for f in os.listdir(output_dir):
+        fp = os.path.join(output_dir, f)
+        if os.path.isdir(fp):
+            continue
+        # Strictly preserve the final study deliverables
+        if f.endswith(".pdf") or f.endswith(".md"):
+            continue
+
+        is_intermediate = any(re.match(pat, f) for pat in intermediate_patterns)
+        if is_intermediate or (input_json and os.path.abspath(fp) == os.path.abspath(input_json)):
+            target = os.path.join(cache_dir, f)
+            try:
+                shutil.move(fp, target)
+                archived.append(f)
+            except Exception:
+                try:
+                    os.remove(fp)
+                    archived.append(f)
+                except OSError:
+                    pass
+
+    if archived:
+        print(f"[+] Cleaned up intermediate files ({', '.join(archived)}) -> archived to ~/.sub2study/cache/")
+
+def generate_documents(bilingual_json, output_dir, title="双语精读讲义", video_url="", speaker="", summary="", source_lang="ru", keep_html=False, clean=True):
     os.makedirs(output_dir, exist_ok=True)
 
     with open(bilingual_json, "r", encoding="utf-8") as f:
@@ -306,10 +356,23 @@ def generate_documents(bilingual_json, output_dir, title="双语精读讲义", v
         res = subprocess.run(cmd, capture_output=True, text=True)
         if res.returncode == 0:
             print(f"[+] PDF successfully generated at: {pdf_path}")
+            if not keep_html and os.path.exists(html_path):
+                try:
+                    os.remove(html_path)
+                except OSError:
+                    pass
         else:
             print(f"[-] Chrome PDF generation failed: {res.stderr}")
     else:
         print("[-] Chromium browser not found, skipped PDF export (HTML and Markdown generated).")
+
+    if clean:
+        cleanup_intermediates(output_dir, input_json=bilingual_json, keep_html=keep_html)
+
+    final_files = [f for f in os.listdir(output_dir) if f.endswith(".pdf") or f.endswith(".md")]
+    print(f"[✓] Output directory contains ONLY final study materials:")
+    for ff in sorted(final_files):
+        print(f"    - {ff}")
 
 def main():
     parser = argparse.ArgumentParser(description="Render Bilingual Markdown & PDF")
@@ -320,6 +383,8 @@ def main():
     parser.add_argument("--speaker", default="", help="Speaker name")
     parser.add_argument("--summary", default="", help="Video content summary")
     parser.add_argument("--source-lang", default="ru", help="Source language code (e.g. ru, en, ja, de, fr)")
+    parser.add_argument("--keep-html", action="store_true", help="Keep intermediate HTML file used for PDF generation")
+    parser.add_argument("--no-clean", action="store_true", help="Do not clean up intermediate JSON files in output directory")
 
     args = parser.parse_args()
     generate_documents(
@@ -329,7 +394,9 @@ def main():
         video_url=args.video_url,
         speaker=args.speaker,
         summary=args.summary,
-        source_lang=args.source_lang
+        source_lang=args.source_lang,
+        keep_html=args.keep_html,
+        clean=not args.no_clean
     )
 
 if __name__ == "__main__":

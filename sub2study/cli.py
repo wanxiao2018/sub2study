@@ -35,6 +35,7 @@ def main():
     extract_parser.add_argument("--cookies", help="Path to custom cookies.txt")
     extract_parser.add_argument("--browser", default="chrome", help="Browser name for fallback")
     extract_parser.add_argument("--min-words", type=int, default=45, help="Minimum words per paragraph")
+    extract_parser.add_argument("--keep-vtt", action="store_true", help="Keep raw .vtt subtitle file in output directory")
 
     # Command: render
     render_parser = subparsers.add_parser("render", help="Render bilingual JSON into Markdown, HTML, and PDF")
@@ -45,6 +46,8 @@ def main():
     render_parser.add_argument("--speaker", default="", help="Speaker name")
     render_parser.add_argument("--summary", default="", help="Video summary")
     render_parser.add_argument("--source-lang", default="ru", help="Source language code")
+    render_parser.add_argument("--keep-html", action="store_true", help="Keep intermediate HTML file used for PDF generation")
+    render_parser.add_argument("--no-clean", action="store_true", help="Do not clean up intermediate JSON files in output directory")
 
     # Command: interactive
     interactive_parser = subparsers.add_parser("interactive", help="Generate Interactive Sentence Study HTML player")
@@ -70,6 +73,11 @@ def main():
             vtt = download_subtitles(url, out_dir, lang="auto")
             segs = parse_vtt_clean_segments(vtt)
             paras = reconstruct_paragraphs(segs)
+            if os.path.exists(vtt):
+                try:
+                    os.remove(vtt)
+                except OSError:
+                    pass
             import json
             out_json = os.path.join(out_dir, "cleaned_paragraphs.json")
             with open(out_json, "w", encoding="utf-8") as f:
@@ -86,11 +94,16 @@ def main():
             sys.exit(1)
         os.makedirs(args.output_dir, exist_ok=True)
         if args.url:
-            vtt = download_subtitles(args.url, args.output_dir, lang=args.lang, cookies=args.cookies, browser=args.browser)
+            vtt = download_subtitles(args.url, args.output_dir, lang=args.lang, cookies=args.cookies, browser=args.browser, keep_vtt=args.keep_vtt)
         else:
             vtt = args.vtt
         segs = parse_vtt_clean_segments(vtt)
         paras = reconstruct_paragraphs(segs, min_words_per_para=args.min_words)
+        if not args.keep_vtt and args.url and os.path.exists(vtt):
+            try:
+                os.remove(vtt)
+            except OSError:
+                pass
         import json
         out_json = os.path.join(args.output_dir, "cleaned_paragraphs.json")
         with open(out_json, "w", encoding="utf-8") as f:
@@ -105,7 +118,9 @@ def main():
             video_url=args.video_url,
             speaker=args.speaker,
             summary=args.summary,
-            source_lang=args.source_lang
+            source_lang=args.source_lang,
+            keep_html=args.keep_html,
+            clean=not args.no_clean
         )
 
     elif args.command == "interactive":

@@ -20,8 +20,10 @@ When requested by the user to process a video URL:
    - Extract 15-25 key vocabulary terms (word, IPA/stress, POS, meaning, video collocation).
    - Write to `./output/bilingual_result.json`.
 
-3. **Render PDF**:
+3. **Render PDF & Deliver (Zero Clutter)**:
    Execute CLI command:
    ```bash
    sub2study render "./output/bilingual_result.json" -o "./output" --title "<TITLE>" --video-url "<URL>" --source-lang "en"
    ```
+   `sub2study render` automatically removes intermediate HTML and archives working JSON files to `~/.sub2study/cache/`.
+   Verify that `./output` contains **strictly only** `<TITLE>.pdf` and `<TITLE>.md`.

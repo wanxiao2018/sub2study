@@ -89,16 +89,18 @@ Save combined results into a single `bilingual_result.json`:
 
 ---
 
-### Step 4: Render Markdown, HTML, and PDF
+### Step 4: Render Final Deliverables & Zero-Clutter Cleanup
 ```bash
-sub2study render "~/Desktop/Russian_Study/bilingual_result.json" \
-  -o "~/Desktop/Russian_Study" \
+sub2study render "<OUTPUT_DIR>/bilingual_result.json" \
+  -o "<OUTPUT_DIR>" \
   --title "<VIDEO_TITLE>" \
   --video-url "<YOUTUBE_URL>" \
   --speaker "<SPEAKER_NAME>" \
   --summary "<SUMMARY>" \
-  --source-lang "ru"
+  --source-lang "en"
 ```
-* **Generated Outputs**:
-  * `<TITLE>.pdf`: Print-ready PDF generated via Headless Google Chrome, featuring natural left-aligned typography (`text-align: left`) that strictly preserves whole words without hyphen cutting, with native font support and vocabulary reference table.
-  * `<TITLE>.md`: Standard Markdown with bilingual cards and vocabulary table for Obsidian/Notion.
+* **Strict Output Cleanliness Guarantee**:
+  `sub2study render` automatically cleans up temporary HTML files and safely archives intermediate working JSON files to `~/.sub2study/cache/`.
+  Upon completion, the target directory will contain **ONLY TWO FINAL DELIVERABLES**:
+  - `[Title].pdf`: Print-ready A4 PDF generated via Headless Google Chrome, featuring natural left-aligned typography (`text-align: left`) that strictly preserves whole words without hyphen cutting.
+  - `[Title].md`: Standard Markdown with bilingual cards and vocabulary table for Obsidian/Notion.

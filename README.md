@@ -29,6 +29,8 @@
   默认自动检测视频原生音轨语种（英语、日语、法语、德语、西班牙语等），同时支持显式指定语言代码。
 - **🤖 广泛兼容各类 AI Agent 生态**：
   不仅支持 Google Antigravity（AGY），还深度适配 **Claude Code**、**OpenAI Codex**、**Cursor** 及通用命令行 Coding Agent，内置通用规范（`SKILL.md`、`CLAUDE.md`、`AGENTS.md`）。
+- **🧹 纯净工作目录（零中间碎片文件污染）**：
+  渲染完成后自动归档清洗中间产生的 `.json`、`.vtt`、临时 `.html` 缓存至全局缓存目录（`~/.sub2study/cache/`），确保输出文件夹下**只留存精干的最终产物**（`[Title].pdf` 与 `[Title].md`），绝无杂乱碎文件。
 - **📦 双格式学习资产输出**：
   - **A4 矢量精读讲义（.pdf）**：基于无头浏览器精确渲染，支持系统原生多语言字体，适合 iPad 批注与纸质打印；
   - **结构化双语笔记（.md）**：标准 Markdown 格式，便于无缝导入 Obsidian、Notion 与 Logseq 归档检索。

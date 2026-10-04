@@ -11,6 +11,10 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # 1. Install Python package
 echo "[1/4] Installing sub2study Python CLI..."
 python3 -m pip install -e "$SCRIPT_DIR"
+if [ -f "$HOME/Library/Python/3.9/bin/sub2study" ]; then
+    mkdir -p "$HOME/.local/bin"
+    ln -sf "$HOME/Library/Python/3.9/bin/sub2study" "$HOME/.local/bin/sub2study"
+fi
 
 # 2. Register Antigravity Skill
 echo "[2/4] Registering Antigravity Skill..."

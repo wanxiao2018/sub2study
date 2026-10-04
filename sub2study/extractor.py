@@ -11,6 +11,8 @@ import re
 import json
 import subprocess
 import argparse
+import tempfile
+import shutil
 
 try:
     from .cookie_resolver import resolve_youtube_cookies
@@ -39,8 +41,12 @@ def detect_target_lang(url, cookies=None, browser="chrome"):
         print(f"[!] Warning during language auto-detection: {e}")
     return "ru"
 
-def download_subtitles(url, output_dir, lang="auto", cookies=None, browser="chrome"):
-    os.makedirs(output_dir, exist_ok=True)
+def download_subtitles(url, output_dir=None, lang="auto", cookies=None, browser="chrome", keep_vtt=False):
+    if keep_vtt and output_dir:
+        download_dir = output_dir
+    else:
+        download_dir = os.path.join(tempfile.gettempdir(), "sub2study_raw_subs")
+    os.makedirs(download_dir, exist_ok=True)
     
     if lang == "auto":
         print("[+] Auto-detecting original language of the video...")
@@ -50,7 +56,7 @@ def download_subtitles(url, output_dir, lang="auto", cookies=None, browser="chro
     else:
         sub_lang = f"{lang},{lang}-orig"
 
-    out_tmpl = os.path.join(output_dir, "%(title)s.%(ext)s")
+    out_tmpl = os.path.join(download_dir, "%(title)s.%(ext)s")
     cmd = [
         "yt-dlp",
         "--write-sub",
@@ -70,9 +76,9 @@ def download_subtitles(url, output_dir, lang="auto", cookies=None, browser="chro
         if "Sign in to confirm" in res.stderr:
             print("[!] YouTube bot challenge detected. Please sign in to YouTube on your browser or provide --cookies.")
 
-    files = [os.path.join(output_dir, f) for f in os.listdir(output_dir) if f.endswith(".vtt") or f.endswith(".srt")]
+    files = [os.path.join(download_dir, f) for f in os.listdir(download_dir) if f.endswith(".vtt") or f.endswith(".srt")]
     if not files:
-        raise FileNotFoundError(f"No subtitle (.vtt/.srt) file found in {output_dir}")
+        raise FileNotFoundError(f"No subtitle (.vtt/.srt) file found in {download_dir}")
     files.sort(key=lambda x: (1 if "orig" in x else 0, os.path.getmtime(x)), reverse=True)
     return files[0]
 
@@ -161,6 +167,7 @@ def main():
     parser.add_argument("--browser", default="chrome", help="Browser for cookies fallback")
     parser.add_argument("--cookies", help="Path to custom cookies.txt file")
     parser.add_argument("--min-words", type=int, default=45, help="Minimum words per paragraph")
+    parser.add_argument("--keep-vtt", action="store_true", help="Keep raw subtitle (.vtt) file in output directory")
 
     args = parser.parse_args()
 
@@ -171,13 +178,19 @@ def main():
     os.makedirs(args.output_dir, exist_ok=True)
 
     if args.url:
-        vtt_file = download_subtitles(args.url, args.output_dir, lang=args.lang, cookies=args.cookies, browser=args.browser)
+        vtt_file = download_subtitles(args.url, args.output_dir, lang=args.lang, cookies=args.cookies, browser=args.browser, keep_vtt=args.keep_vtt)
     else:
         vtt_file = args.vtt
 
     print(f"[+] Processing subtitle file: {vtt_file}")
     raw_segments = parse_vtt_clean_segments(vtt_file)
     paragraphs = reconstruct_paragraphs(raw_segments, min_words_per_para=args.min_words)
+
+    if not args.keep_vtt and args.url and os.path.exists(vtt_file):
+        try:
+            os.remove(vtt_file)
+        except OSError:
+            pass
 
     out_json = os.path.join(args.output_dir, "cleaned_paragraphs.json")
     with open(out_json, "w", encoding="utf-8") as f:

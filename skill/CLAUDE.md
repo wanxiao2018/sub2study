@@ -39,6 +39,8 @@ When the user asks you to process a YouTube video or generate a bilingual study 
      --summary "<SUMMARY>" \
      --source-lang "en"
    ```
-   This outputs:
+   **Zero-Clutter Deliverable Guarantee**:
+   `sub2study render` automatically cleans up intermediate HTML and archives working JSON files to `~/.sub2study/cache/`.
+   The `./output` directory will strictly contain only the two final deliverables:
    - `<TITLE>.pdf`: Print-ready A4 PDF with natural left alignment and no word hyphen cutting.
    - `<TITLE>.md`: Companion Markdown for Obsidian/Notion.
