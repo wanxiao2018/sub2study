@@ -1,53 +1,37 @@
-# 🎓 sub2study: 将任何 YouTube 视频字幕秒变出版级双语学习讲义
+# sub2study
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Python: 3.8+](https://img.shields.io/badge/Python-3.8%2B-green.svg)](https://python.org)
-[![Platform: macOS | Linux | Windows](https://img.shields.io/badge/Platform-macOS%20|%20Linux%20|%20Windows-lightgrey.svg)]()
-[![Antigravity: Skill Supported](https://img.shields.io/badge/Antigravity-Skill%20Ready-purple.svg)]()
+将 YouTube 视频字幕整理成便于精读的双语学习 PDF。
 
-> **sub2study**（*Subtitles to Study*）是一款专为外语自学者打造的自动化视频精读/精听材料制作工具与 AI Skill。它不仅能抓取全球任意语种的 YouTube 字幕（包括自动生成的 ASR 俄语/英语/日语/法语等），更针对常见语音识别痛点实现了**自动纠偏去重**、**智能断句聚合**、**AI 原文精修校对**、**地道上下文翻译**与**带重音核心生词提炼**，最终一键导出出版级 PDF、Markdown 笔记以及支持毫秒级视频联动的**单句交互式精听网页**！
+平时看 YouTube 外语视频学习时，直接下载的字幕往往很难直接用来阅读：
+- **断句稀碎**：自动生成的字幕（ASR）通常按时间切片，两三个单词一行，没有标点；
+- **滚屏重复**：VTT 字幕里有大量上下滚动的重复行；
+- **机翻生硬**：把碎短句直接扔给翻译软件，译文经常前言不搭后语；
+- **反爬拦截**：YouTube 经常弹出人机验证（`Sign in to confirm you're not a bot`）。
 
----
-
-## 🌟 核心产出成果
-
-运行一次 `sub2study`，即可获得完整的“外语学习四件套”：
-
-| 成果文件 | 格式 | 核心特点与使用场景 |
-| :--- | :---: | :--- |
-| **单句精听交互播放器** | `_Interactive_Sentence_Study.html` | **强烈推荐**。单文件零依赖，内嵌 YouTube 播放器与字幕流**毫秒级卡拉OK同步**，支持单句无限循环复读（<kbd>R</kbd>）、听写盲测遮罩模式（<kbd>T</kbd>）、TTS 发音与生词抽屉。 |
-| **出版级精读讲义** | `.pdf` | 基于 Headless Chrome 矢量渲染，**自然左对齐排版**，严格保留完整单词（绝无连字符跨行截断），适配 iPad、打印机和静读学习。 |
-| **双语对照学习笔记** | `.md` | 标准 GitHub 风格 Markdown，方便一键导入 Obsidian、Notion、Logseq 归档与检索。 |
-| **纯净交互网页** | `.html` | 响应式自适应布局，可直接双击离线阅读。 |
+`sub2study` 就是为了解决这些繁琐问题写的一个小工具。它会自动下载原声字幕、合并去重、规范标点，并配合 AI 完成语境翻译与生词整理，最终直接排版生成一份适合在平板或打印阅读的 A4 双语精读 PDF。
 
 ---
 
-## 🚀 为什么选择 sub2study？（四大技术杀手锏）
+## 最终效果
 
-### 1. 彻底解决 YouTube Cookie 与 Bot 防爬拦截
-* **传统痛点**：YouTube 频繁弹出 `Sign in to confirm you're not a bot`，且 `yt-dlp` 自带的 `--cookies-from-browser` 极易误读取 Chrome 扩展插件生成的 30KB 假 Cookie，导致下载反复失败。
-* **sub2study 解法**：内置 **Smart Cookie Resolver**，自动定位主配置文件真实的高权重大体积数据库（>300KB），自动调用系统安全层（macOS Keychain / Windows DPAPI / Linux SecretService）解密并生成干净的 Cookie 缓存，一次配置、长期免密、100% 稳定。
-
-### 2. ASR 俄语/多语种语音识别“智能预处理与精修”
-* **传统痛点**：直接机翻 ASR 自动字幕是“垃圾进，垃圾出”（错别字、漏逗号、专有名词乱拼音译）。
-* **sub2study 解法**：在翻译前加入 **AI Proofreading 审稿阶段**：
-  * 专有名词纠偏（如 `айл-экзамен` $\rightarrow$ `IELTS-экзамен`, `бонку` $\rightarrow$ `учебник Бонк`）；
-  * 补齐俄语复合句严谨标点与大小写；
-  * 剔除口吃重复词，但保留真实地道俚语。
-
-### 3. 带重音（Ударение）与体貌（Вид）的核心生词表
-* 每篇讲义文末自动提取 20~35 个核心生词，严格按照正音辞典标注**急性重音符号**（如 `претендова́ть`、`прока́чивать`、`шлифо́вка`），明确标注动词体貌（未完成体/完成体）与视频原句地道搭配。
-
-### 4. 严禁单词隔行截断（Whole Words Preservation）
-* 排版放弃粗暴的强制两端对齐，采用出版规范的自然左对齐与整词换行（`word-break: normal; hyphens: none;`），确保每个俄语/外语长词完完整整显示在一行，绝不破坏记忆体验。
+执行后会生成两份文件：
+1. **精读讲义 PDF**：俄汉（或外汉）上下对照排版，保留起始时间戳，整词换行（不会把长单词从中间截断），文末附带视频核心词汇表（含单词原型、重音标注、词性与真实例句）。
+2. **Markdown 笔记**：方便直接导入 Obsidian 或 Notion 搜索与归档。
 
 ---
 
-## 🛠️ 安装与快速上手
+## 核心特性
 
-### 方式一：一键自动安装（推荐）
+- **自动解决 Cookie 验证**：自动定位并解密本机 Chrome / Edge 的主账号 Cookie，绕过 YouTube 频繁弹出的 Bot 限制，免去手动导出 `cookies.txt` 的麻烦。
+- **字幕文本去重与断句**：过滤 YouTube ASR 的重复滚动词与时间标签，依据句末标点将碎片词条合并成完整长句，并按语义聚合成自然段落。
+- **支持任意语言**：默认自动识别视频的原声语言（俄语、英语、日语、法语、德语等），也可手动指定语种代码。
+- **学习导向排版**：采用自然左对齐与整词换行，绝无连字符把俄语长词硬生生切成两半的情况。
 
-克隆仓库并运行一键安装脚本：
+---
+
+## 安装
+
+### 方式一：一键安装（推荐）
 
 ```bash
 git clone https://github.com/your-username/sub2study.git
@@ -56,14 +40,11 @@ chmod +x install.sh
 ./install.sh
 ```
 
-脚本会自动：
-1. 安装 Python CLI 工具 `sub2study`；
-2. 自动将 Skill 挂载至 Antigravity 全局目录（`~/.gemini/config/skills/sub2study`）；
-3. 自动完成 YouTube 浏览器会话 Cookie 探测与缓存。
-
----
+脚本会自动安装命令行工具，并把 Skill 规则注册到你的本地 AI 工具（如 Antigravity）中。
 
 ### 方式二：手动安装
+
+需要 Python 3.8+ 及 Google Chrome（用于渲染 PDF）：
 
 ```bash
 pip install -r requirements.txt
@@ -72,86 +53,58 @@ pip install -e .
 
 ---
 
-## 💡 使用指南
+## 使用方法
 
-### 1. 配合 AI Agent（如 Google Antigravity）使用（最智能）
+### 1. 配合 AI Agent（如 Google Antigravity）使用
 
-直接在对话框中发任意 YouTube 链接：
-> **“用 sub2study 帮我把这个视频做成学习讲义：https://www.youtube.com/watch?v=0-j8zPoJFJc”**
+如果你在使用支持 Agent Skill 的工具，克隆安装后，直接发视频链接即可：
 
-Agent 将自动调用预处理、翻译与渲染管线，几分钟内直接在你的桌面生成全套 PDF、Markdown 与交互 HTML！
+> “用 sub2study 帮我把这个视频做成学习 PDF：https://www.youtube.com/watch?v=0-j8zPoJFJc”
 
-### 2. 独立命令行（CLI）使用
+Agent 会自动抓取、校对、翻译，并在你的桌面生成排版好的 PDF 和 Markdown。
 
-#### ① 提取并清洗字幕为自然段落：
+---
+
+### 2. 命令行直接使用
+
+#### 第一步：抓取并清洗字幕为段落
 ```bash
-sub2study extract "https://www.youtube.com/watch?v=0-j8zPoJFJc" -o ./output --lang auto
+sub2study extract "https://www.youtube.com/watch?v=0-j8zPoJFJc" -o ./output
 ```
+会在 `./output` 目录下生成清洗好、带时间戳的 `cleaned_paragraphs.json`。
 
-#### ② 渲染已有双语 JSON 为 Markdown、HTML 和 PDF：
+#### 第二步：翻译与导出 PDF
+将翻译好的内容整理为 JSON 后，一行命令渲染出 PDF 和 Markdown：
+
 ```bash
-sub2study render ./bilingual_result.json \
+sub2study render ./output/bilingual_result.json \
   -o ./output \
-  --title "AI时代的语言学习法" \
+  --title "视频学习讲义标题" \
   --video-url "https://www.youtube.com/watch?v=0-j8zPoJFJc" \
-  --speaker "Dmitry Petrov" \
+  --speaker "主讲人姓名" \
   --source-lang ru
 ```
 
-#### ③ 一键生成单句交互式精听精读网页：
-```bash
-sub2study interactive ./bilingual_result.json \
-  -o ./output/Interactive_Study.html \
-  --title "AI时代的语言学习法" \
-  --video-url "https://www.youtube.com/watch?v=0-j8zPoJFJc"
-```
-
 ---
 
-## ⌨️ 交互播放器快捷键
-
-在生成的 `_Interactive_Sentence_Study.html` 页面中，你可以使用以下按键极速操控：
-
-| 快捷键 | 功能 |
-| :---: | :--- |
-| <kbd>Space</kbd> | 播放 / 暂停视频 |
-| <kbd>R</kbd> | **单句无限复读**（反复听当前句，磨耳朵 / 影子跟读） |
-| <kbd>→</kbd> / <kbd>←</kbd> | 跳至下一句 / 上一句 |
-| <kbd>T</kbd> | **听写盲测模式**（开启/关闭所有中文译文模糊遮罩） |
-| <kbd>🔊</kbd> | 原生 Web Speech 朗读标准发音 |
-
----
-
-## 📂 项目结构
+## 目录结构
 
 ```
 sub2study/
-├── sub2study/                         # 核心 Python 源码
-│   ├── __init__.py
-│   ├── cli.py                         # 终端命令行入口
-│   ├── cookie_resolver.py             # 核心反爬：智能主配置 Cookie 提取与解密
-│   ├── extractor.py                   # 字幕下载、去重清洗与语义断句
-│   ├── renderer.py                    # 无连字符 Markdown / HTML / PDF 渲染器
-│   └── interactive_builder.py         # 交互式单句精听播放器构建器
-├── skill/                             # AI Agent 技能配置
-│   ├── SKILL.md                       # Antigravity 原生 Skill 规则文件
-│   └── system_prompt_snippet.md       # 第三方 LLM 适配 Prompt 范例
-├── install.sh                         # 一键安装脚本
-├── setup.py                           # Python 包打包配置
-├── requirements.txt                   # 依赖清单
-├── LICENSE                            # MIT 开源协议
-└── README.md                          # 项目说明文档
+├── sub2study/                 # 核心代码
+│   ├── cookie_resolver.py     # 浏览器 Cookie 安全读取与反爬处理
+│   ├── extractor.py           # 字幕抓取、去重与段落重组
+│   ├── renderer.py            # PDF 与 Markdown 排版生成器
+│   └── cli.py                 # 命令行入口
+├── skill/                     # AI Agent Skill 配置文件
+│   └── SKILL.md
+├── install.sh                 # 安装脚本
+├── setup.py                   # 安装配置
+└── README.md
 ```
 
 ---
 
-## 🤝 参与贡献
+## 开源协议
 
-欢迎提交 Issue 和 Pull Request！
-- 支持更多视频平台（Bilibili、Coursera、TED 等）；
-- 支持更多语言的特定形态学标注与变位解析；
-- 欢迎分享基于 `sub2study` 制作的公开精读教材！
-
-## 📄 开源许可证
-
-本项目采用 [MIT License](LICENSE) 授权协议。
+本项目采用 [MIT License](LICENSE)。

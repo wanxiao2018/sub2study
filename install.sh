@@ -20,7 +20,6 @@ mkdir -p "$SKILL_TARGET/scripts"
 cp "$SCRIPT_DIR/skill/SKILL.md" "$SKILL_TARGET/SKILL.md"
 cp "$SCRIPT_DIR/sub2study/extractor.py" "$SKILL_TARGET/scripts/extract_and_clean_subtitles.py"
 cp "$SCRIPT_DIR/sub2study/renderer.py" "$SKILL_TARGET/scripts/render_bilingual_doc.py"
-cp "$SCRIPT_DIR/sub2study/interactive_builder.py" "$SKILL_TARGET/scripts/generate_sentence_study_html.py"
 cp "$SCRIPT_DIR/sub2study/cookie_resolver.py" "$SKILL_TARGET/scripts/cookie_resolver.py"
 
 chmod +x "$SKILL_TARGET/scripts/"*.py

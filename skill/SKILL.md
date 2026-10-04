@@ -100,26 +100,5 @@ sub2study render "~/Desktop/Russian_Study/bilingual_result.json" \
   --source-lang "ru"
 ```
 * **Generated Outputs**:
-  * `<TITLE>.md`: Standard Markdown with bilingual cards and vocabulary table.
-  * `<TITLE>.html`: Responsive, beautifully styled HTML document.
-  * `<TITLE>.pdf`: Print-ready PDF generated via Headless Google Chrome, featuring natural left-aligned typography (`text-align: left`) that strictly preserves whole words without hyphen cutting.
-
----
-
-### Step 5: Generate Interactive Sentence Study Player (HTML)
-```bash
-sub2study interactive "~/Desktop/Russian_Study/bilingual_result.json" \
-  -o "~/Desktop/Russian_Study/<TITLE>_Interactive_Sentence_Study.html" \
-  --title "<VIDEO_TITLE>" \
-  --video-url "<YOUTUBE_URL>" \
-  --speaker "<SPEAKER_NAME>" \
-  --summary "<SUMMARY>"
-```
-* **Interactive Player Features**:
-  * **YouTube Video & Transcript Real-time Sync**: Embedded player automatically highlights the currently speaking sentence/card and scrolls along (karaoke style).
-  * **Click-to-Seek**: Click any sentence, card, or timestamp to jump directly to that exact second.
-  * **Single Sentence Replay (`R` key)**: Repeat the current sentence indefinitely for shadowing (影子跟读) and listening training.
-  * **Blind Listening Test Mode (`T` key)**: Blurs out Chinese translations so you can test your comprehension before revealing.
-  * **Native Web Speech TTS (`🔊` icon)**: Pronounce any sentence on demand.
-  * **Embedded Vocabulary Drawer**: Instant access to core vocabulary words with stress marks and collocations.
-  * **Keyboard Shortcuts**: Space (play/pause), Left/Right (prev/next sentence), R (replay), T (toggle Chinese).
+  * `<TITLE>.pdf`: Print-ready PDF generated via Headless Google Chrome, featuring natural left-aligned typography (`text-align: left`) that strictly preserves whole words without hyphen cutting, with native font support and vocabulary reference table.
+  * `<TITLE>.md`: Standard Markdown with bilingual cards and vocabulary table for Obsidian/Notion.
