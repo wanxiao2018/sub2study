@@ -1,0 +1,21 @@
+[project]
+name = "sub2study"
+version = "1.0.0"
+description = "Transform YouTube subtitles into publication-grade bilingual study guides (A4 PDF & Markdown notes)."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+    { name = "wanxiao2018" }
+]
+requires-python = ">=3.9"
+dependencies = [
+    "yt-dlp>=2024.8.0",
+]
+
+[project.scripts]
+sub2study = "sub2study.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/wanxiao2018/sub2study"
+Repository = "https://github.com/wanxiao2018/sub2study.git"
+Issues = "https://github.com/wanxiao2018/sub2study/issues"
