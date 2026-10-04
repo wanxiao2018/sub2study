@@ -162,11 +162,9 @@ output/
 
 ## 🐧 社区与致谢
 
-本项目认可并链接 **[LINUX DO (linux.do)](https://linux.do)** 社区。欢迎佬友在 L 站交流讨论、反馈问题并分享外语精读体验：
+本项目认可并链接 **[LINUX DO (linux.do)](https://linux.do)** 社区。
 - 社区交流主站：[https://linux.do](https://linux.do)
-- 欢迎交流各类语言的断句调优、Prompt 翻译经验与双语学习心得；
-- 欢迎提出 Feature Request，共同打造更加精炼、实用的双语学习工程套件；
-- 秉持「真诚、友善、团结、专业」的精神，共同推动开源工具的持续演进。
+- 欢迎 L 站佬友在社区交流。
 
 ---
 

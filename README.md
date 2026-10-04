@@ -164,9 +164,7 @@ output/
 
 This project acknowledges and is shared with the **[LINUX DO](https://linux.do)** community.
 - Community portal: [https://linux.do](https://linux.do)
-- Fellow developers and language learners are warmly welcomed to discuss, give feedback, and share language learning workflows on LINUX DO.
-- Join discussions on subtitle segmentation, ASR prompt tuning, and multi-agent integrations!
-- Guided by the spirit of "Sincere, Friendly, United, and Professional", advancing open-source AI tooling together.
+- Warmly welcoming LINUX DO community members to connect and share.
 
 ---
 
